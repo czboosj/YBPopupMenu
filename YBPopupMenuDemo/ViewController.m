@@ -27,7 +27,9 @@
 }
 
 - (IBAction)onPopupClick:(UIButton *)sender {
-    [YBPopupMenu showRelyOnView:sender titles:TITLES icons:ICONS menuWidth:120 delegate:self];
+    [YBPopupMenu showRelyOnView:sender titles:TITLES icons:ICONS menuWidth:120 otherSettings:^(YBPopupMenu *popupMenu) {
+        popupMenu.delegate = self;
+    }];
 }
 
 - (IBAction)onTestClick:(UIButton *)sender {
@@ -35,6 +37,7 @@
         popupMenu.priorityDirection = YBPopupMenuPriorityDirectionLeft;
         popupMenu.borderWidth = 1;
         popupMenu.borderColor = [UIColor redColor];
+        popupMenu.arrowPosition = 22;
     }];
 }
 
@@ -58,6 +61,7 @@
         popupMenu.delegate = self;
         popupMenu.offset = 10;
         popupMenu.type = YBPopupMenuTypeDark;
+        popupMenu.animationManager.style = YBPopupMenuAnimationStyleNone;
         popupMenu.rectCorner = UIRectCornerBottomLeft | UIRectCornerBottomRight;
     }];
 }
@@ -74,6 +78,7 @@
         popupMenu.tag = 100;
         //如果不加这句默认是 UITableViewCellSeparatorStyleNone 的
         popupMenu.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        
     }];
 }
 
@@ -84,7 +89,7 @@
     NSLog(@"点击了 %@ 选项",ybPopupMenu.titles[index]);
 }
 
-- (void)ybPopupMenuBeganDismiss
+- (void)ybPopupMenuBeganDismiss:(YBPopupMenu *)ybPopupMenu
 {
     if (self.textField.isFirstResponder) {
         [self.textField resignFirstResponder];
@@ -138,6 +143,8 @@
         popupMenu.dismissOnSelected = NO;
         popupMenu.borderColor = [UIColor brownColor];
         popupMenu.textColor = [UIColor brownColor];
+        popupMenu.animationManager.style = YBPopupMenuAnimationStyleFade;
+        popupMenu.animationManager.duration = 0.15;
     }];
     return YES;
 }
